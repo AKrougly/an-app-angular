@@ -1,5 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,14 @@ export class SideNavService implements OnInit {
 
   private showNav$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor() { }
+  constructor(private router: Router) {
+    // here any navigation events (i.e. clicking on the nav items to go to a separate page)
+    // will be captured inside this subscription, then we hide the nav by setting
+    // the showNav$ to false or in our case, calling the setShowNav to false, which does the same
+    router.events.subscribe(() => {
+      this.setShowNav(false);
+    });
+  }
 
   ngOnInit() {
   }
